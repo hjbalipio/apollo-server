@@ -1,38 +1,22 @@
-const { ApolloServer, gql } = require("apollo-server");
-import { products, categories, reviews } from './data.js';
-
-// String, Int, Float, Boolean
-
-const typeDefs = gql`
-    type Query {
-        hello: String
-        products: [Product!]!
-    }
-
-    type Product {
-        name: String!
-        description: String!
-        quantity: Int!
-        price: Float!
-        onSale: Boolean!
-    }
-`
-
-const resolvers = {
-    Query: {
-        hello: () => {
-            hello: String
-        },
-
-        products: () => {
-            return products
-        }
-    }
-}
+const { ApolloServer } = require("apollo-server");
+const { typeDefs } = require('./schema');
+const { Query } = require('./resolvers/Query');
+const { Category } = require('./resolvers/Category');
+const { Product } = require('./resolvers/Product');
+const { categories, products, reviews } = require('./db');
 
 const server = new ApolloServer({
     typeDefs, 
-    resolvers
+    resolvers: {
+        Query,
+        Category,
+        Product
+    },
+    context: {
+        categories,
+        products,
+        reviews
+    }
 });
 
 server.listen().then(({ url }) => {
