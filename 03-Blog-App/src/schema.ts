@@ -2,6 +2,8 @@ import { gql } from "apollo-server";
 
 export const typeDefs = gql`
     type Query {
+        me: User
+        profile(userId: ID!): Profile
         posts: [Post!]!
     }
 
@@ -9,6 +11,8 @@ export const typeDefs = gql`
         postCreate(post: PostInput!): PostPayload!
         postUpdate(postId: ID!, post: PostInput!): PostPayload!
         postDelete(postId: ID!): PostPayload!
+        postPublish(postId: ID!): PostPayload!
+        postUnpublish(postId: ID!): PostPayload!
         signup(credentials: CredentialsInput!, name: String!, bio: String!): AuthPayload
         signin(credentials: CredentialsInput!): AuthPayload
     }
@@ -17,7 +21,7 @@ export const typeDefs = gql`
         id: ID!
         title: String!
         content: String!
-        publishied: Boolean!
+        published: Boolean!
         createdAt: String!
         user: User!
     }
@@ -27,7 +31,6 @@ export const typeDefs = gql`
         email: String!
         name: String!
         createdAt: String!
-        profile: Profile!
         posts: [Post!]!
     }
 
