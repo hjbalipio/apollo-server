@@ -1,20 +1,35 @@
 exports.Category = {
-  products: ({ id: categoryId }, { filter }, { db }) => {
-    const categoryProducts = db.products.filter(
-      (product) => product.categoryId === categoryId
-    );
-    let filteredCategoryProducts = categoryProducts;
+    products: ({ id: categoryId }, { filter }, { db }) => {
+        const categoryProducts = db.products.filter((product) => product.categoryId === categoryId);
+        let filteredCategoryProducts = categoryProducts;
 
-    if (filter) {
-      if (filter.onSale === true) {
-        filteredCategoryProducts = filteredCategoryProducts.filter(
-          (product) => {
-            return product.onSale;
-          }
-        );
-      }
+        if(filter){
+            const { onSale, avgRating } = filter;
+
+            if(onSale === true){
+                filteredCategoryProducts = filteredCategoryProducts.filter(product => {
+                    return product.onSale;
+                })
+            }
+
+            if([1,2,3,4,5].includes(avgRating)){
+                filteredCategoryProducts = filteredCategoryProducts.filter(product => {
+                    let sumRating = 0;
+                    let numberOfReviews = 0;
+                    db.reviews.forEach(review => {
+                        if(review.productId === product.id){
+                            sumRating += review.rating;
+                            numberOfReviews++;
+                        }
+                    });
+                    
+                    const avgCategoryProductsRating = sumRating / numberOfReviews;
+
+                    return avgCategoryProductsRating >= avgRating
+                })
+            }
+        }
+        
+        return filteredCategoryProducts;
     }
-
-    return filteredCategoryProducts;
-  },
-};
+}

@@ -1,18 +1,18 @@
 {
-  "name": "e-commerce-app",
+  "name": "apollo-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "This project showcases the GraphQL, a query language for APIs and a runtime for executing those queries by using a type system you define for our data. It provides a more efficient, powerful, and flexible alternative to the traditional REST API.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^3.3.0",
-    "graphql": "^15.6.0",
-    "uuid": "^8.3.2"
+    "apollo-server": "^3.13.0",
+    "graphql": "^16.9.0",
+    "uuid": "^10.0.0"
   }
 }
